@@ -1,0 +1,14 @@
+{
+  "model_name": "cat&dog",
+  "train_ratio": 0.6,
+  "valid_ratio": 0.25,
+  "test_ratio": 0.15,
+  "image_size": [
+    224,
+    224
+  ],
+  "augmentation_factor": 1,
+  "enable_noise_artifacts": true,
+  "enable_geometric_transforms": true,
+  "force_rebuild": false
+}
