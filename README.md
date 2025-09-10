@@ -2,7 +2,7 @@
 
 Универсальный, GPU-дружественный пайплайн для **классификации изображений** на базе Ultralytics YOLO* — от подготовки датасета и аугментаций до обучения и гибкого пакетного инференса с автоматической сортировкой/действиями и CSV-отчётами. Работает с любыми совместимыми весами классификации Ultralytics YOLO (например, v8 сегодня, v* завтра).
 
-> **Коротко:** положи изображения в `data/<model_name>/<class>/`, запусти `data_preparation.py`, обучи модель через `training.py`, а потом классифицируй при помощи простого `use_model_easy.py` или расширенного `use_model.py`. CUDA поддерживается, но не обязательна.
+> **Коротко:** положи изображения в `data/<model_name>/<class>/`, запусти `data_preparation.py`, обучи модель через `training.py`, а потом классифицируй при помощи простого `use_model_easy.py` или расширенного `use_model_smart.py`. CUDA поддерживается, но не обязательна.
 
 ---
 
@@ -40,7 +40,7 @@
 - **Скрипт обучения**: загружает базовые веса Ultralytics, тренирует, валидирует, сохраняет модель в `models/<model_name>_exp/`.
 - **Два режима инференса**:
   - `use_model_easy.py` — редактируешь константы и запускаешь.
-  - `use_model.py` — мощный CLI: батчи, top-K, порог уверенности, выбор устройства, рекурсивный обход, список файлов из `.txt`, действия по классам (ignore/move/copy/delete), dry-run, CSV-отчёт, авто-поиск последних весов.
+  - `use_model_smart.py` — мощный CLI: батчи, top-K, порог уверенности, выбор устройства, рекурсивный обход, список файлов из `.txt`, действия по классам (ignore/move/copy/delete), dry-run, CSV-отчёт, авто-поиск последних весов.
 - **Поддержка CUDA** и отдельный скрипт проверки GPU.
 
 ---
@@ -66,7 +66,7 @@ YoloForge-Classify/
 ├─ data_preparation.py
 ├─ training.py
 ├─ use_model_easy.py
-└─ use_model.py
+└─ use_model_smart.py
 ```
 
 ---
@@ -131,7 +131,7 @@ python training.py
 #### Вариант А — простой
 Редактируй константы в начале `use_model_easy.py`:
 ```python
-WEIGHTS = r"models\cat&dog_exp\weightsest.pt"
+WEIGHTS = r"models\cat&dog_exp\weights\best.pt"
 INPUT_PATH = r"data\cat&dog\cat"
 IMAGE_SIZE = 224
 CONF_THRESHOLD = 0.75
@@ -144,7 +144,7 @@ python use_model_easy.py
 #### Вариант B — CLI
 ```bash
 # классификация папки рекурсивно, батч 64, порог 0.9
-python use_model.py --model-name "cat&dog" --input "D:/images" --recursive --conf 0.90 --batch 64
+python use_model_smart.py --model-name "cat&dog" --input "D:/images" --recursive --conf 0.90 --batch 64
 ```
 
 Поддерживает множество флагов: `--weights`, `--topk`, `--csv`, `--actions`, `--dry-run`.
@@ -178,7 +178,7 @@ python use_model.py --model-name "cat&dog" --input "D:/images" --recursive --con
 ---
 
 ## Действия и CSV-отчёты
-Скрипт `use_model.py` может не только классифицировать, но и выполнять действия с файлами (перемещать, копировать, удалять).
+Скрипт `use_model_smart.py` может не только классифицировать, но и выполнять действия с файлами (перемещать, копировать, удалять).
 
 Пример `actions.json`:
 ```json
