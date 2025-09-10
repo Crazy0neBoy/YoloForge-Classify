@@ -77,7 +77,7 @@ YoloForge-Classify/
 ### Windows
 ```bat
 python -m venv .venv
-.\.venv\Scriptsctivate
+.\.venv\Scripts\activate
 :: --- установка строго в этом порядке ---
 pip install torch==2.0.1 torchvision==0.15.2 --index-url https://download.pytorch.org/whl/cu118
 pip install ultralytics
